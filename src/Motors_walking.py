@@ -6,21 +6,28 @@ Created on Fri Sep 18 15:59:25 2020
 @author: flo
 """
 
+#TO DO: check names of objects, functions and variables to make it more readable
+
+
 from pylab import *
 import numpy as np
 
-#reads out the motor activity of all motors
+# reads out the motor activity of all motors
+
+
 def read_out_motors_activity(list_of_motors):
     data = []
     for m in list_of_motors:
-        data.append(m.attachment_state)    
+        data.append(m.attachment_state)
     return data
 
-#reads out the position of all motors
+# reads out the position of all motors
+
+
 def read_out_motors_position(list_of_motors):
     data = []
     for m in list_of_motors:
-        data.append(m.position)    
+        data.append(m.position)
     return data
 
 
@@ -33,8 +40,9 @@ class Binding:
     # Executing an binding event
     def execute(self):
         self.motor.attachment_state = 1
-    
-    #Returns the binding rate: if bound, the motor cannot bind anymore, therefore the rate = 0 
+
+    # Returns the binding rate: if bound, the motor cannot bind anymore,
+    # therefore the rate = 0
     def get_rate(self):
         # if bound
         if self.motor.attachment_state == 1:
@@ -69,7 +77,7 @@ class Stepping:
         self.rate = rate
         self.motor = motor
     
-#a stepping event changes the position of the motor by 8 nm    
+# a stepping event changes the position of the motor by 8 nm    
     def execute(self):
         self.motor.position += 8
 
@@ -95,8 +103,8 @@ motors = []
 num_of_motors = 3
 
 # Initialize all motors into the list
-for i in arange(0,num_of_motors):
-    #All motors are bound, initializing with attachment_state = 1
+for i in arange(0, num_of_motors):
+    # All motors are bound, initializing with attachment_state = 1
     motors.append(Motor(1, 0))
 
 # List of all events
@@ -108,22 +116,22 @@ for m in motors:
     events.append(Unbinding(1, m))
     events.append(Stepping(50, m))
 
-#simulation time
+# simulation time
 time = 10
-t=0
+t = 0
 data = []
 
-while t<=time:
+while t <= time:
 
-#sum of all rates
+# sum of all rates
     sum_rates = 0
     for e in events:
         sum_rates += e.get_rate()
 
-#waiting time from exp dist
+# waiting time from exp dist
     dt = np.random.exponential(1/sum_rates)
 
-#Checking which transition should happen
+# Checking which transition should happen
     r = np.random.uniform()
 
     prob = 0
@@ -134,22 +142,22 @@ while t<=time:
             break
 
     t += dt
-    #md = read_out_motors(motors)
+    # md = read_out_motors(motors)
     
     pos = read_out_motors_position(motors)
     data.append([t] + pos)
 
 data = asarray(data)
 
-#Plotting
+# Plotting
 plt.figure()
-for i in arange(1,len(data[0])):
-    plt.plot(data[:,0],data[:,i], label = 'motor ' + str(i))
+for i in arange(1, len(data[0])):
+    plt.plot(data[:, 0], data[:, i], label='motor ' + str(i))
 
 plt.legend()
 plt.xlabel('time (s)')
 plt.ylabel('position (nm)')
 plt.show()
 
-#A figure is saved in /results/figures/
-savefig('../results/figures/R2_k11_10-5.pdf',bbox_inches='tight')
+# A figure is saved in /results/figures/
+savefig('../results/figures/R2_k11_10-5.pdf', bbox_inches='tight')
