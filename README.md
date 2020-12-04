@@ -40,14 +40,14 @@ This will create a structure of the following folders:
 
 ```
 ### Running
-Go to ..motorswalking/src/ and start
+Go to ../motors/src/ and start
 ```
 $ python Motors_walking.py
 ```
-This will generate a figure with simulated trajectory which is stored in ...motorswalking/results/figures/
+This will generate a figure with simulated trajectory which is stored in .../motors/results/figures/
 
 ### Configuring
-You can change the different parameters for the simulation in the config.ini file located in ...motorswalking/config/
+You can change the different parameters for the simulation in the config.ini file located in .../motors/config/
 
 ## License
 
