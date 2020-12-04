@@ -46,6 +46,9 @@ $ python Motors_walking.py
 ```
 This will generate a figure with simulated trajectory which is stored in .../motors/results/figures/
 
+### Running with Binder
+https://mybinder.org/v2/gh/drflorianberger/motors/main
+
 ### Configuring
 You can change the different parameters for the simulation in the config.ini file located in .../motors/config/
 
