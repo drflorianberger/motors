@@ -2,10 +2,19 @@
 
 Version 0.1.0
 
-Stochatic Simulations of walking molecular motors on a filament
+# Introduction
+MotorsWalking simulates how molecular motors stochastically walk along a infinite filament. These molecules stochastically bind to and unbind from a track. They walk along  the track by taking 8 nm steps that occure stochastically.
+To solve the time evolution of the position of these motors a Gillespie algorithm is implemented. 
 
-
-## Project organization
+# Installation
+### Prerequisites
+- Phython 3.6.9
+### Clone
+```
+$ git clone https://github.com/drflorianberger/motors.git
+```
+This will create a structure of the following folders:
+### Project organization
 
 ```
 .
@@ -30,7 +39,15 @@ Stochatic Simulations of walking molecular motors on a filament
 └── src                <- Source code for this project (HW)
 
 ```
+### Running
+Go to ..motorswalking/src/ and start
+```
+$ python Motors_walking.py
+```
+This will generate a figure with simulated trajectory which is stored in ...motorswalking/results/figures/
 
+### Configuring
+You can change the different parameters for the simulation in the config.ini file located in ...motorswalking/config/
 
 ## License
 

@@ -124,14 +124,21 @@ def initalize_events(motors, rates):
 
     
 def simulation(total_time):
-    # Simulation time
-    t = 0
-    # data
+    """
+    Simulation
+    
+    This function returns the simulated data. Input is the total simulation time.
+    To obtain the time evolution of the system a Gillespie algorithm is implemented. 
+    """
+
+    simu_time = 0
     data = []
 
-    while t <= total_time:
+    while simu_time <= total_time:
 
-        # sum of all rates
+        # The Gillespie algorithm is an event based algorithm therefore we have
+        # to determine the time step until the next event happens. The rate for the next
+        # event to happen is the sum of all rates because we assume a Markov model
         sum_rates = 0
         for e in events:
             sum_rates += e.get_rate()
@@ -140,10 +147,11 @@ def simulation(total_time):
                              negative then something went really wrong. If it is zero\
                              no event will happen. Maybe no binding?" % (sum_rates))
 
-    # waiting time from exp dist
-        dt = np.random.exponential(1/sum_rates)
+    
+        waiting_time = np.random.exponential(1/sum_rates)
 
-    # Checking which transition should happen
+    # Next we determine which event happens by randomly choosing from all possible events
+    # weighted with their probability.
         r = np.random.uniform()
 
         prob = 0
@@ -153,11 +161,11 @@ def simulation(total_time):
                 e.execute()
                 break
 
-        t += dt
+        simu_time += waiting_time
         # md = read_out_motors(motors)
     
         pos = read_out_motors_position(motors)
-        data.append([t] + pos)
+        data.append([simu_time] + pos)
 
     data = asarray(data)
     return data
@@ -178,7 +186,7 @@ def plot_data(data):
 
 # Getting the parameters for the simulation from the parameters.ini file
 config = configparser.ConfigParser()
-config.read('test.ini')
+config.read('../config/config.ini')
 
 # Number of motors in the simulation
 num_of_motors = config['Parameters'].getint('number_of_motors')
